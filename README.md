@@ -54,6 +54,9 @@ line, removes any old breadcrumbs, and gives you the steps to check it.
 your assistant, and answer its questions. That page also lists the five things to check before you trust what it
 wrote, and an `AGENTS.md` block to keep in your repo so later sessions don't re-guess the choices this one made.
 
+The prompt is tested: assistants of three sizes set up a Next.js app and a Vite app from scratch, and what they got
+wrong is what its rules are there to prevent. The results are on that page.
+
 Doing it by hand is quick too: the [quick start](#quick-start) below, or
 [getting started](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/getting-started.md) for the
 five-step version.

@@ -35,6 +35,9 @@ RULES
 - One trail per page. Find any existing breadcrumb component or BreadcrumbList JSON-LD (search for "BreadcrumbList"
   and "aria-label=\"Breadcrumb\"") and replace it; never leave two. Never place both <Breadcrumbs> with JSON-LD on and
   <BreadcrumbJsonLd> for the same page.
+- Replacing means: delete the old breadcrumb files and render the package's component directly where they were
+  rendered (the layout or app shell). Do not rewrite the old component file in place, and do not wrap the package's
+  component in a component of your own, even one with the old name.
 - Start with inference. Do not declare routes unless a page's parent is not its URL parent, or a whole pattern needs
   a label. When ids need real names, pass them with pathLabels from the code that already has the name; never fetch
   data for the trail.
@@ -46,6 +49,8 @@ RULES
   server-rendered page outside React, use renderBreadcrumbsHtml() for the initial HTML; use the <breadcrumb-nav>
   element only for client-only apps or after hydration.
 - Keep it plain. No wrapper components, no context providers, no configuration systems around the package.
+- Never describe rendered HTML, class names or attributes you have not seen in this project's output. If you want to
+  show what the trail renders, run it or point me at view-source; do not write it from memory.
 
 STEP 1 — INSPECT THE REPOSITORY
 Report what you find, in a short list:
@@ -59,6 +64,8 @@ Report what you find, in a short list:
   written).
 - A base path, if the app is served under a prefix.
 - The route structure: how deep pages go, and which segments are ids (for example [id], :slug).
+- Ancestor paths with no page of their own: for example /settings when only /settings/profile exists. A crumb for
+  such a path would link to a 404; list every one you find.
 Then ask me to confirm or correct that list before going further.
 
 STEP 2 — ASK ME
@@ -67,7 +74,8 @@ One question at a time:
 - Which pages with ids should show a real name in the trail, and where in the code is that name available?
 - Are there pages whose place in the site is not their place in the URL? (For example /forms belongs under
   Settings.) If so, which, and what is the parent?
-- Are there URL segments that should never appear as crumbs?
+- Are there URL segments that should never appear as crumbs? Include the ancestor paths without a page that you
+  found in STEP 1; the usual answer is to hide them (a route with hidden: true).
 - Should the first crumb say "Home", or something else?
 - Styling: keep the defaults, adjust with classNames, or start unstyled?
 - Is the site in English? If not, what should the landmark be called (the aria-label)?
@@ -82,10 +90,14 @@ STEP 3 — PRODUCE
      declared where the URL is not the parent;
    - the stylesheet change from the RULES;
    - removal of any existing breadcrumbs found in step 1.
-2. A verification walkthrough, as a numbered list: view the page source of a page two levels deep and find
-   aria-label="Breadcrumb" and the application/ld+json script containing "BreadcrumbList"; paste the page into
-   Google's Rich Results Test and expect one Breadcrumbs item with no errors; press Tab through the trail and expect
-   focus to move along the links in order and skip the current page.
+2. A verification walkthrough, as a numbered list, written for this app's rendering mode:
+   - server-rendered (Next.js, any SSR): view the page source of a page two levels deep and find
+     aria-label="Breadcrumb" and the application/ld+json script containing "BreadcrumbList";
+   - client-only (a Vite SPA, for example): the source has neither, because the trail is created by JavaScript;
+     check the rendered DOM in the browser's element inspector instead, and say so plainly in the not-done list,
+     including that crawlers which do not run JavaScript will not see the structured data;
+   then paste the page's URL into Google's Rich Results Test and expect one Breadcrumbs item with no errors, and
+   press Tab through the trail and expect focus to move along the links in order and skip the current page.
 3. A short list of what you did NOT do, and what I still have to do myself.
 
 STEP 4 — CHECK YOUR OWN WORK
@@ -93,7 +105,9 @@ Before you finish:
 - Run the project's type check and build, and report the result. If either fails because of your changes, fix them.
 - List every prop, attribute, option and function you used, and confirm each appears in ALLOWED SETTINGS below.
 - Confirm out loud: baseUrl is a real https origin; exactly one BreadcrumbList per page; the @source path is
-  relative to the stylesheet that contains it, or styles.css is imported; no old breadcrumb code remains.
+  relative to the stylesheet that contains it, or styles.css is imported; no old breadcrumb code remains; the old
+  breadcrumb files are deleted, not rewritten.
+- If styles.css is imported, confirm that unstyled is passed on the trail. If Tailwind 4 is used, confirm it is not.
 - Confirm you produced all three things from STEP 3.
 
 ALLOWED SETTINGS
@@ -168,16 +182,34 @@ put the same section there instead. The file name changes; the content doesn't.
 ## Validation record
 
 This prompt is tested against real repositories, not just written. Each run starts from a cold assistant with no
-memory of this project, against fixtures that deliberately contain an older hand-rolled breadcrumb.
+memory of this project, against two fixtures that deliberately contain an older hand-rolled breadcrumb: a Next.js 16
+App Router app in TypeScript with Tailwind CSS 4 under `src/app`, and a Vite + React Router app in plain JavaScript
+with no Tailwind and a `localStorage` trail. A run passes when a script confirms nine objective facts about the
+result (the old files gone, one trail per page, a real origin, the stylesheet line right for its location, names
+without a fetch, the project's own build green) and the five checks above find nothing.
 
-<!-- Filled in by the validation runs (plan slice S8d). -->
-
-**Last validated:** not yet. The table below is filled in when the runs are done; until then, the five checks above
-are the safety net.
+**Last validated:** 22 September 2026, against 1.0.0-beta.1.
 
 | Date | Assistant | Fixture | Result |
 | --- | --- | --- | --- |
-| | | | |
+| 2026-09-22 | Mid-size model | Next.js 16 App Router, Tailwind 4, old client component with JSON-LD | Pass |
+| 2026-09-22 | Mid-size model | Vite + React Router, no Tailwind, old `localStorage` trail | Pass |
+| 2026-09-22 | Large model | Next.js 16 App Router, Tailwind 4, old client component with JSON-LD | Pass |
+| 2026-09-22 | Large model | Vite + React Router, no Tailwind, old `localStorage` trail | Pass |
+| 2026-09-22 | Small model | Next.js 16 App Router | Fail: wrapped the component in a new file despite the rule |
+| 2026-09-22 | Small model | Vite + React Router | Fail: imported the stylesheet but left out `unstyled` despite the rule |
+
+The first round failed more often, which is why a few rules above look oddly specific. Two assistants "replaced" the
+old breadcrumb by rewriting its file in place as a wrapper. One skipped `unstyled`. One described rendered class
+names it had never seen. One found that `/settings` had no page of its own and that the inferred crumb would link
+to a 404, which nothing in the prompt had asked about. And the walkthrough told everyone to view the page source,
+which shows nothing in a client-only app. Each of those became a rule or a question, and every assistant was run
+again from scratch against clean copies of the fixtures.
+
+Two caveats on the table. The small model failed both of its second-round runs on rules it had read and named in
+its own report, so with a small assistant treat the five checks above as the real safety net, or use a larger one.
+And the three assistants are different sizes from the same vendor; the prompt avoids vendor-specific syntax, but it
+has not been checked against an assistant from another vendor.
 
 If you run it and it gets something wrong, that's a bug in this page: please
 [open an issue](https://github.com/bronz3beard/breadcrumb-nav/issues) with what it produced.
