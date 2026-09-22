@@ -43,6 +43,7 @@ jobs:
         run: npm install --no-save react@18.3 react-dom@18.3 @types/react@18 @types/react-dom@18
       - run: npm run lint
       - run: npm run format:check
+      - run: npm run check:links
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
