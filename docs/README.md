@@ -2,6 +2,8 @@
 
 ## Start here
 
+- [Set this up with an AI assistant](./agent-setup.md): a prompt that interviews you and writes the setup, plus
+  what to check afterwards
 - [Getting started](./getting-started.md): install, your first trail, naming pages that have ids, declaring routes,
   checking it worked
 - [React](./react.md): every prop of `<Breadcrumbs>`, links through your router, placing the structured data

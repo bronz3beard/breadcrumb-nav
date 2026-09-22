@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest'
+import { readFileSync } from 'node:fs'
 import {
   accessorsOf,
+  allowedSettingsIn,
   collectPublicNames,
+  PROMPT_OPENING,
+  settingsGroups,
   exportNamesOf,
   membersOf,
   parse,
@@ -80,6 +84,25 @@ describe('the gate against the real source', () => {
     const groups = collectPublicNames()
     expect(groups.length).toBeGreaterThan(15)
     for (const { names } of groups) expect(names.length).toBeGreaterThan(0)
+  })
+
+  it('extracts the ALLOWED SETTINGS block of the prompt and stops at the fence', () => {
+    const doc =
+      'intro\n```text\nRULES\n- x\nALLOWED SETTINGS\nline one `a`\nline two `b`\n```\n\n## After\n`c`'
+    expect(allowedSettingsIn(doc)).toBe('line one `a`\nline two `b`')
+    expect(allowedSettingsIn('no block here')).toBeUndefined()
+  })
+
+  it('leaves output shapes out of the settings groups', () => {
+    const labels = settingsGroups(collectPublicNames()).map(g => g.label)
+    expect(labels).not.toContain('lib/core/types.ts Crumb')
+    expect(labels).toContain('lib/core/types.ts BuildOptions')
+  })
+
+  it('finds the prompt exactly once in the real docs', () => {
+    const prompt = readFileSync('docs/agent-setup.md', 'utf8')
+    expect(prompt.split(PROMPT_OPENING)).toHaveLength(2)
+    expect(allowedSettingsIn(prompt)).toBeDefined()
   })
 
   it('reports a name that the document does not mention in backticks', () => {

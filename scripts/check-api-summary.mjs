@@ -2,7 +2,7 @@
 // Names are read from the source with the TypeScript compiler API (top-level members only: the AST makes nesting
 // explicit, which a regex cannot), plus the package.json entry points. A target that cannot be found, or that yields
 // no names, is a failure, never a silent pass. The extractors are exported for the unit test beside this file.
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import ts from 'typescript'
 
@@ -180,6 +180,23 @@ export function collectPublicNames(
   return groups
 }
 
+/** Output shapes, not settings: an assistant never types these, so the prompt's list leaves them out. */
+const NOT_SETTINGS = new Set([
+  'lib/core/types.ts Crumb',
+  'lib/core/types.ts LabelContext',
+  'lib/core/jsonld.ts BreadcrumbListItem',
+])
+export const settingsGroups = groups =>
+  groups.filter(group => !NOT_SETTINGS.has(group.label))
+
+/** The first line of the prompt in docs/agent-setup.md: it must exist there once and nowhere else. */
+export const PROMPT_OPENING =
+  'You are setting up breadcrumb-nav in this repository'
+
+/** The ALLOWED SETTINGS block of the prompt, up to the end of its code fence. */
+export const allowedSettingsIn = document =>
+  /ALLOWED SETTINGS\n([\s\S]*?)\n```/.exec(document)?.[1]
+
 /** The names that a document does not mention in backticks. */
 export const undocumentedIn = (document, groups) =>
   groups.flatMap(({ label, names }) =>
@@ -205,4 +222,46 @@ if (
     process.exit(1)
   }
   console.log(`✓ api summary: all ${total} public names are documented`)
+
+  // The AI setup prompt: its ALLOWED SETTINGS list must cover every setting, and it must exist exactly once.
+  const prompt = readFileSync('docs/agent-setup.md', 'utf8')
+  const allowed = allowedSettingsIn(prompt)
+  const failures = []
+  if (!allowed)
+    failures.push(
+      'docs/agent-setup.md has no ALLOWED SETTINGS block inside the prompt fence',
+    )
+  else failures.push(...undocumentedIn(allowed, settingsGroups(groups)))
+  const copies = prompt.split(PROMPT_OPENING).length - 1
+  if (copies !== 1)
+    failures.push(
+      `the prompt opening line appears ${copies} times in docs/agent-setup.md, expected 1`,
+    )
+  const otherFiles = [
+    'README.md',
+    ...readdirSync('docs')
+      .filter(f => f.endsWith('.md') && f !== 'agent-setup.md')
+      .map(f => `docs/${f}`),
+  ]
+  for (const file of otherFiles) {
+    if (readFileSync(file, 'utf8').includes(PROMPT_OPENING))
+      failures.push(
+        `${file} contains a copy of the prompt; it must live only in docs/agent-setup.md`,
+      )
+  }
+  if (!readFileSync('README.md', 'utf8').includes('docs/agent-setup.md'))
+    failures.push('README.md does not link to docs/agent-setup.md')
+  const settingsTotal = settingsGroups(groups).reduce(
+    (n, g) => n + g.names.length,
+    0,
+  )
+  if (failures.length > 0) {
+    console.error(
+      `✗ agent setup prompt: ${failures.length} failure(s)\n- ${failures.join('\n- ')}`,
+    )
+    process.exit(1)
+  }
+  console.log(
+    `✓ agent setup prompt: all ${settingsTotal} settings are in ALLOWED SETTINGS, one copy, linked from the README`,
+  )
 }

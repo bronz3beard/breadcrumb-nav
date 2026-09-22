@@ -20,6 +20,7 @@ custom element, in Angular, Vue, Svelte or plain HTML.
 ## Contents
 
 - [Install](#install)
+- [Set this up with an AI assistant](#set-this-up-with-an-ai-assistant)
 - [Quick start](#quick-start)
   - [React](#react)
   - [Next.js](#nextjs)
@@ -42,6 +43,20 @@ npm install breadcrumb-nav
 React 18.3 or 19 is a peer dependency for the React and Next.js entries; the core and the custom element need
 nothing. The package is published as ES modules, so it works in every current bundler and in Node.js 22.12 or
 later; it can't be loaded with `require()`.
+
+## Set this up with an AI assistant
+
+There's a prompt you can paste into any AI coding assistant. It reads your project, asks for your site's public origin
+and which pages need real names, then adds the trail in the right place for your framework, fixes the stylesheet
+line, removes any old breadcrumbs, and gives you the steps to check it.
+
+**[Get the prompt](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/agent-setup.md)**, paste it into
+your assistant, and answer its questions. That page also lists the five things to check before you trust what it
+wrote, and an `AGENTS.md` block to keep in your repo so later sessions don't re-guess the choices this one made.
+
+Doing it by hand is quick too: the [quick start](#quick-start) below, or
+[getting started](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/getting-started.md) for the
+five-step version.
 
 ## Quick start
 
@@ -215,6 +230,8 @@ Not using Tailwind? Import `breadcrumb-nav/styles.css` instead. Adjust with `cla
   class slots
 - [API summary](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/api-summary.md): every export, option,
   prop, attribute and error code on one page, checked against the code in CI
+- [Set this up with an AI assistant](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/agent-setup.md):
+  the interview prompt, what to check afterwards, and an `AGENTS.md` block
 
 The docs index is at [docs/README.md](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/README.md).
 
