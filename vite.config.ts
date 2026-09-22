@@ -32,7 +32,7 @@ export default defineConfig({
       entry: {
         index: resolve(import.meta.dirname, 'lib/index.ts'),
         core: resolve(import.meta.dirname, 'lib/core.ts'),
-        next: resolve(import.meta.dirname, 'lib/next.ts'),
+        next: resolve(import.meta.dirname, 'lib/next.tsx'),
         element: resolve(import.meta.dirname, 'lib/element.ts'),
       },
       formats: ['es'],
@@ -76,7 +76,7 @@ export default defineConfig({
       },
       {
         find: /^breadcrumb-nav\/next$/,
-        replacement: resolve(import.meta.dirname, 'lib/next.ts'),
+        replacement: resolve(import.meta.dirname, 'lib/next.tsx'),
       },
       {
         find: /^breadcrumb-nav\/element$/,

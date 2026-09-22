@@ -24,7 +24,7 @@ const ENTRIES = {
       'next/link',
       'next/navigation',
     ],
-    jsonLdSites: 0,
+    jsonLdSites: 1,
     useClient: true,
   },
   element: { allowedImports: [], jsonLdSites: 0, useClient: false },

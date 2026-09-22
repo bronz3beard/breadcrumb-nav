@@ -17,6 +17,9 @@
 //                          check-treeshake.mjs shows buildBreadcrumbs alone ships 2.41. Budget 3.7 (measured + ~5%).
 //          S4 2026-09-22 — index 4.06 (core chunk 3.57 + the server-safe React components). Over the plan's 4.0
 //                          ceiling for the same reason as core; budget 4.3 (measured + ~5%), flagged with core.
+//                          Both accepted by the Tech Lead on 2026-09-22.
+//          S5 2026-09-22 — next 3.76 (usePathname + next/link wiring over the shared React and core chunks).
+//                          Budget 4.0 (measured + ~5%).
 import { Buffer } from 'node:buffer'
 import { readFileSync } from 'node:fs'
 import { dirname, join, normalize } from 'node:path'
@@ -25,7 +28,7 @@ import { gzipSync } from 'node:zlib'
 const BUDGETS_KB = {
   core: 3.7,
   index: 4.3,
-  next: 4.5,
+  next: 4.0,
   element: 4.0,
 }
 
