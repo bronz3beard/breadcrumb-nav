@@ -16,6 +16,8 @@
   `parent`, `hidden`, `strict`, `basePath`, trailing slashes, every error
 - [SEO](./seo.md): what JSON-LD is, exactly what the package emits, the rules it follows, how to verify a page
 - [Styling](./styling.md): Tailwind CSS 4 and the `@source` line, the plain stylesheet, `classNames`, `unstyled`
+- [API summary](./api-summary.md): every export, option, prop, attribute and error code, checked against the code in
+  CI
 
 ## Moving here
 

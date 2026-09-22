@@ -213,6 +213,8 @@ Not using Tailwind? Import `breadcrumb-nav/styles.css` instead. Adjust with `cla
   to verify it
 - [Styling](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/styling.md): Tailwind, the plain stylesheet,
   class slots
+- [API summary](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/api-summary.md): every export, option,
+  prop, attribute and error code on one page, checked against the code in CI
 
 The docs index is at [docs/README.md](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/README.md).
 
