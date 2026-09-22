@@ -11,6 +11,7 @@
   "exclude": [
     "./lib/**/*.test.ts",
     "./lib/**/*.test.tsx",
-    "./lib/**/*.types.test.ts"
+    "./lib/**/*.typecheck.ts",
+    "./lib/test"
   ]
 }

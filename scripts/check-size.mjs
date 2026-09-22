@@ -8,13 +8,20 @@
 //          S0 (scaffold) — every entry empty.
 //          S1 2026-09-22 — core 1.13 (path normalisation, basePath, trailing slash, label inference, pathLabels,
 //                          BreadcrumbError). Budget set to 1.2; the other three entries stay at their plan ceilings.
+//          S2 2026-09-22 — core 2.41 (+ route patterns :x/[x]/[...x]/*, specificity matching, parent chains with
+//                          cycle and unknown-parent detection, hidden, strict, typed labels). Budget set to the
+//                          plan's approved 2.5 ceiling (3.7% headroom) rather than measured + 5%.
+//          S3 2026-09-22 — core 3.49 (+ BreadcrumbList JSON-LD with baseUrl validation, script-safe serialisation,
+//                          renderBreadcrumbsHtml for SSR outside React, DEFAULT_CLASSES). Over the plan's 2.5
+//                          ceiling, which was set before the audit added the SSR renderer; flagged to the Tech Lead.
+//                          check-treeshake.mjs shows buildBreadcrumbs alone ships 2.41. Budget 3.7 (measured + ~5%).
 import { Buffer } from 'node:buffer'
 import { readFileSync } from 'node:fs'
 import { dirname, join, normalize } from 'node:path'
 import { gzipSync } from 'node:zlib'
 
 const BUDGETS_KB = {
-  core: 1.2,
+  core: 3.7,
   index: 4.0,
   next: 4.5,
   element: 4.0,
