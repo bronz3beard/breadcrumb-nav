@@ -17,6 +17,10 @@ custom element, in Angular, Vue, Svelte or plain HTML.
 - **Tailwind CSS 4** defaults that follow your page's text colour, or a plain stylesheet under a kilobyte.
 - TypeScript and JavaScript, ES modules only.
 
+**[Try it in the playground](https://bronz3beard.github.io/breadcrumb-nav/)**: click through a fake site and watch
+the trail, its structured data and the HTML string change together, in React, as a custom element, with Tailwind or
+the plain stylesheet.
+
 ## Contents
 
 - [Install](#install)
@@ -237,6 +241,8 @@ Not using Tailwind? Import `breadcrumb-nav/styles.css` instead. Adjust with `cla
   the interview prompt, what to check afterwards, and an `AGENTS.md` block
 
 The docs index is at [docs/README.md](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/README.md).
+Maintainers: [releasing](https://github.com/bronz3beard/breadcrumb-nav/blob/main/docs/releasing.md) and the
+[changelog](https://github.com/bronz3beard/breadcrumb-nav/blob/main/CHANGELOG.md).
 
 ## Coming from the old component?
 

@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+/* What a consumer writes, with the path from their stylesheet to node_modules/breadcrumb-nav/dist. Here it is this
+   repository's own build, which is why `npm run build` must run before the demo builds. */
+@source '../../dist';
+
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}

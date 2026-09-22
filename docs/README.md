@@ -1,5 +1,8 @@
 # breadcrumb-nav docs
 
+Try the library first in the [playground](https://bronz3beard.github.io/breadcrumb-nav/): every renderer, every
+look, and the structured data, live.
+
 ## Start here
 
 - [Set this up with an AI assistant](./agent-setup.md): a prompt that interviews you and writes the setup, plus
@@ -20,6 +23,11 @@
 - [Styling](./styling.md): Tailwind CSS 4 and the `@source` line, the plain stylesheet, `classNames`, `unstyled`
 - [API summary](./api-summary.md): every export, option, prop, attribute and error code, checked against the code in
   CI
+
+## Maintaining
+
+- [Releasing](./releasing.md): versions, the staged npm release, the one-time npm and Pages setup
+- [Changelog](../CHANGELOG.md)
 
 ## Moving here
 
