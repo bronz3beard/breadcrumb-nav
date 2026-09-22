@@ -5,14 +5,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
-  // The three legacy files are reference material for the port and are deleted in the last slice.
-  globalIgnores([
-    'dist',
-    'demo/dist',
-    '.loop-out',
-    'index.js',
-    'customRoutesFunction.js',
-  ]),
+  globalIgnores(['dist', 'demo/dist', '.loop-out']),
   js.configs.recommended,
   tseslint.configs.recommended,
   reactHooks.configs.flat.recommended,
