@@ -93,8 +93,10 @@ jobs:
 
       - name: What happens next
         run: |
-          echo "### Staged for approval" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Nothing is installable yet. Approve or reject it at" >> "$GITHUB_STEP_SUMMARY"
-          echo "<https://www.npmjs.com/package/breadcrumb-nav/access>," >> "$GITHUB_STEP_SUMMARY"
-          echo 'or with `npm stage list breadcrumb-nav` then `npm stage approve <stage-id>`.' >> "$GITHUB_STEP_SUMMARY"
+          cat >> "$GITHUB_STEP_SUMMARY" <<'SUMMARY'
+          ### Staged for approval
+
+          Nothing is installable yet. Approve or reject it at
+          <https://www.npmjs.com/package/breadcrumb-nav/access>,
+          or with `npm stage list breadcrumb-nav` then `npm stage approve <stage-id>`.
+          SUMMARY

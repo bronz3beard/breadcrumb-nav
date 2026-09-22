@@ -211,5 +211,8 @@ its own report, so with a small assistant treat the five checks above as the rea
 And the three assistants are different sizes from the same vendor; the prompt avoids vendor-specific syntax, but it
 has not been checked against an assistant from another vendor.
 
+The fixtures, the grading scripts and the run record are in the repository under `test/agent-fixtures`, with the
+steps to repeat a round.
+
 If you run it and it gets something wrong, that's a bug in this page: please
 [open an issue](https://github.com/bronz3beard/breadcrumb-nav/issues) with what it produced.

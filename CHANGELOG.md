@@ -1,8 +1,10 @@
 # Changelog
 
 This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## 1.0.0-beta.2 - unreleased
+- no changes from previous version just testing version tagging and release.
 
-## 1.0.0-beta.1 — unreleased
+## 1.0.0-beta.1 - unreleased
 
 The first release. A rewrite of an internal React breadcrumb component as a framework-agnostic package. The old
 component's behaviours worth keeping (labels from the URL, a home crumb, a current page that is not a link, and

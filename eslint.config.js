@@ -5,13 +5,19 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
-  globalIgnores(['dist', 'demo/dist', '.loop-out']),
+  // test/agent-fixtures/fixtures are other projects' code, used to validate the AI setup prompt; not ours to lint.
+  globalIgnores([
+    'dist',
+    'demo/dist',
+    '.loop-out',
+    'test/agent-fixtures/fixtures',
+  ]),
   js.configs.recommended,
   tseslint.configs.recommended,
   reactHooks.configs.flat.recommended,
   {
     // Build scripts run in Node; declare the two globals they use rather than pulling in a globals package.
-    files: ['scripts/**/*.mjs'],
+    files: ['scripts/**/*.mjs', 'test/agent-fixtures/*.mjs'],
     languageOptions: { globals: { console: 'readonly', process: 'readonly' } },
   },
   {

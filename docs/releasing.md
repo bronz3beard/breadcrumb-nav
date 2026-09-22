@@ -19,8 +19,8 @@ installable until you approve it with 2FA, so even a compromised build can't pub
    CI fails if a public export, option, prop, attribute or error code is missing from [the API summary](./api-summary.md)
    or from the allowed list in [the AI setup prompt](./agent-setup.md), so those two pages can't fall behind the code.
    What CI can't judge is whether the prompt still asks the *right questions*: if this release adds, removes or renames
-   a public option, re-run the prompt validation (two fixtures, three assistant sizes; see the validation record on
-   that page) and update its "last validated" line.
+   a public option, re-run the prompt validation (two fixtures, three assistant sizes; the fixtures, graders and instructions are in
+   [test/agent-fixtures](../test/agent-fixtures/README.md)) and update its "last validated" line.
 
 3. On GitHub, open **Releases → Draft a new release**:
    - **Tag**: `v` plus the version, for example `v1.0.0-beta.2`, created on publish from `main`.
