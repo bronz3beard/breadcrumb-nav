@@ -1,1 +1,43 @@
-/* breadcrumb-nav/styles.css — plain CSS for projects without Tailwind. Filled in by slice S7. */
+/* breadcrumb-nav/styles.css: the default look for projects without Tailwind. Selectors use the data-crumb hooks that
+   every renderer sets, so it works with `unstyled` and with your own classNames. Colour is inherited from the page. */
+[data-crumb='nav'] {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+[data-crumb='list'] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+[data-crumb='item'] {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+[data-crumb='link'] {
+  color: inherit;
+  opacity: 0.7;
+  text-decoration: none;
+  border-radius: 0.125rem;
+}
+[data-crumb='link']:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+[data-crumb='link']:focus-visible {
+  opacity: 1;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+[data-crumb='current'] {
+  font-weight: 500;
+}
+[data-crumb='separator'] {
+  opacity: 0.5;
+  user-select: none;
+}

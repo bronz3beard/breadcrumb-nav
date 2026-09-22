@@ -24,27 +24,15 @@
 //                          4.0 ceiling for the same accepted reason as core and index; budget 4.3 (measured + ~5%).
 import { Buffer } from 'node:buffer'
 import { readFileSync } from 'node:fs'
-import { dirname, join, normalize } from 'node:path'
+import { join } from 'node:path'
 import { gzipSync } from 'node:zlib'
+import { withImports } from './import-graph.mjs'
 
 const BUDGETS_KB = {
   core: 3.7,
   index: 4.3,
   next: 4.0,
   element: 4.3,
-}
-
-const RELATIVE_IMPORT = /(?:from|import)\s*["'](\.{1,2}\/[^"']+)["']/g
-
-const withImports = (file, seen = new Set()) => {
-  if (seen.has(file)) return seen
-  seen.add(file)
-  for (const [, specifier] of readFileSync(file, 'utf8').matchAll(
-    RELATIVE_IMPORT,
-  )) {
-    withImports(normalize(join(dirname(file), specifier)), seen)
-  }
-  return seen
 }
 
 for (const [entry, budgetKb] of Object.entries(BUDGETS_KB)) {

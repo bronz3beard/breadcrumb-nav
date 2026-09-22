@@ -5,7 +5,8 @@
 // Uses node: built-ins only. Run after `npm run build`.
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, statSync } from 'node:fs'
-import { dirname, join, normalize } from 'node:path'
+import { join } from 'node:path'
+import { graphSource } from './import-graph.mjs'
 
 // Per entry: which bare imports it may leave to the host app, how many JSON-LD script sites it contains
 // (`dangerouslySetInnerHTML` is the only way React emits raw script text; the React entries get exactly one each
@@ -62,25 +63,12 @@ const RUNTIME_DEPENDENCY_FIELDS = [
   'bundledDependencies',
 ]
 const INSTALL_SCRIPTS = ['preinstall', 'install', 'postinstall', 'prepare']
-const RELATIVE_IMPORT = /(?:from|import)\s*["'](\.{1,2}\/[^"']+)["']/g
 
 /** @type {string[]} */
 const failures = []
 /** @param {boolean} ok @param {string} message */
 const check = (ok, message) => {
   if (!ok) failures.push(message)
-}
-
-/** The entry file plus every chunk it imports, transitively — what a bundler ships for that import. */
-const withImports = (file, seen = new Set()) => {
-  if (seen.has(file)) return seen
-  seen.add(file)
-  for (const [, specifier] of readFileSync(file, 'utf8').matchAll(
-    RELATIVE_IMPORT,
-  )) {
-    withImports(normalize(join(dirname(file), specifier)), seen)
-  }
-  return seen
 }
 
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'))
@@ -126,8 +114,7 @@ for (const [entry, rules] of Object.entries(ENTRIES)) {
     check(false, `${entryFile} is missing`)
     continue
   }
-  const files = [...withImports(entryFile)]
-  const code = files.map(file => readFileSync(file, 'utf8')).join('\n')
+  const code = graphSource(entryFile)
 
   const specifiers = [
     ...code.matchAll(

@@ -66,6 +66,7 @@
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json",
     "build:watch": "vite build --watch",
+    "check:classes": "node scripts/check-classes.mjs",
     "check:package": "node scripts/check-package.mjs && node scripts/check-treeshake.mjs && publint --strict && attw --pack . --profile esm-only --exclude-entrypoints ./styles.css",
     "check:size": "node scripts/check-size.mjs",
     "format": "prettier --write .",
