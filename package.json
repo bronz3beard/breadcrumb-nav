@@ -1,7 +1,7 @@
 {
   "name": "breadcrumb-nav",
   "type": "module",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "Tiny, SEO-correct breadcrumb navigation for any JavaScript project: infers the trail from the URL or a type-checked route list, renders accessible markup and schema.org BreadcrumbList JSON-LD. React, Next.js and a plain custom element, styled with Tailwind CSS 4.",
   "license": "MIT",
   "author": "bronz3beard <heyrory.com@gmail.com> (https://www.heyrory.com/)",

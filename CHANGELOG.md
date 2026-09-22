@@ -1,8 +1,9 @@
 # Changelog
 
 This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## 1.0.0-beta.2 - unreleased
-- no changes from previous version just testing version tagging and release.
+
+## 1.0.0 - 22/09/2026
+- no changes from previous version just doing an official release.
 
 ## 1.0.0-beta.1 - unreleased
 
