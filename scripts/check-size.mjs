@@ -15,6 +15,8 @@
 //                          renderBreadcrumbsHtml for SSR outside React, DEFAULT_CLASSES). Over the plan's 2.5
 //                          ceiling, which was set before the audit added the SSR renderer; flagged to the Tech Lead.
 //                          check-treeshake.mjs shows buildBreadcrumbs alone ships 2.41. Budget 3.7 (measured + ~5%).
+//          S4 2026-09-22 — index 4.06 (core chunk 3.57 + the server-safe React components). Over the plan's 4.0
+//                          ceiling for the same reason as core; budget 4.3 (measured + ~5%), flagged with core.
 import { Buffer } from 'node:buffer'
 import { readFileSync } from 'node:fs'
 import { dirname, join, normalize } from 'node:path'
@@ -22,7 +24,7 @@ import { gzipSync } from 'node:zlib'
 
 const BUDGETS_KB = {
   core: 3.7,
-  index: 4.0,
+  index: 4.3,
   next: 4.5,
   element: 4.0,
 }

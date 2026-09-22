@@ -13,7 +13,7 @@ import { dirname, join, normalize } from 'node:path'
 const ENTRIES = {
   index: {
     allowedImports: ['react', 'react/jsx-runtime'],
-    jsonLdSites: 0,
+    jsonLdSites: 1,
     useClient: false,
   },
   core: { allowedImports: [], jsonLdSites: 0, useClient: false },

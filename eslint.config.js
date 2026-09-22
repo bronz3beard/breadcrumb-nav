@@ -25,7 +25,8 @@ export default defineConfig([
     // JSON-LD must be emitted as raw script text, which React only allows through dangerouslySetInnerHTML.
     // That is the single permitted site; scripts/check-package.mjs counts occurrences in the built output.
     files: ['lib/**/*.{ts,tsx}'],
-    ignores: ['lib/react/BreadcrumbJsonLd.tsx'],
+    // Tests read container.innerHTML to inspect output; that is not writing HTML.
+    ignores: ['lib/react/BreadcrumbJsonLd.tsx', 'lib/**/*.test.{ts,tsx}'],
     rules: {
       'no-restricted-syntax': [
         'error',
