@@ -1,0 +1,106 @@
+{
+  "name": "breadcrumb-nav",
+  "type": "module",
+  "version": "1.0.0-beta.1",
+  "description": "Tiny, SEO-correct breadcrumb navigation for any JavaScript project: infers the trail from the URL or a type-checked route list, renders accessible markup and schema.org BreadcrumbList JSON-LD. React, Next.js and a plain custom element, styled with Tailwind CSS 4.",
+  "license": "MIT",
+  "author": "bronz3beard <heyrory.com@gmail.com> (https://www.heyrory.com/)",
+  "homepage": "https://bronz3beard.github.io/breadcrumb-nav/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bronz3beard/breadcrumb-nav.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bronz3beard/breadcrumb-nav/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "breadcrumb",
+    "breadcrumbs",
+    "navigation",
+    "seo",
+    "schema.org",
+    "json-ld",
+    "structured-data",
+    "accessibility",
+    "react",
+    "nextjs",
+    "web-component",
+    "custom-element",
+    "tailwind",
+    "typescript"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "default": "./dist/core.js"
+    },
+    "./next": {
+      "types": "./dist/next.d.ts",
+      "default": "./dist/next.js"
+    },
+    "./element": {
+      "types": "./dist/element.d.ts",
+      "default": "./dist/element.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "publishConfig": {
+    "tag": "next"
+  },
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "build:watch": "vite build --watch",
+    "check:package": "node scripts/check-package.mjs && publint --strict && attw --pack . --profile esm-only --exclude-entrypoints ./styles.css",
+    "check:size": "node scripts/check-size.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "mock:publish": "npm pack --dry-run",
+    "prepublishOnly": "npm run build && npm run check:size",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@eslint/js": "^10.0.1",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^22.20.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "axe-core": "^4.13.0",
+    "eslint": "^10.11.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "jsdom": "^30.1.0",
+    "prettier": "^3.9.8",
+    "publint": "^0.3.24",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-eslint": "^8.70.0",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  }
+}

@@ -1,0 +1,45 @@
+// Fails when a package entry grows past its gzip budget. Each entry is measured with the chunks it imports, gzipped
+// together, which is roughly what an app's bundler ships for that import. Budgets are the measured size + ~5%.
+// Raise one only deliberately, with the reason in the commit message — never to silence an unexpected jump.
+//
+// PROVISIONAL: the numbers below are the ceilings agreed in the plan before any code existed. The first green build
+// of each slice replaces its entry's ceiling with the measured size + ~5% and adds a dated line to this history.
+// History (gzip, kB):
+//          S0 (scaffold) — every entry empty.
+//          S1 2026-09-22 — core 1.13 (path normalisation, basePath, trailing slash, label inference, pathLabels,
+//                          BreadcrumbError). Budget set to 1.2; the other three entries stay at their plan ceilings.
+import { Buffer } from 'node:buffer'
+import { readFileSync } from 'node:fs'
+import { dirname, join, normalize } from 'node:path'
+import { gzipSync } from 'node:zlib'
+
+const BUDGETS_KB = {
+  core: 1.2,
+  index: 4.0,
+  next: 4.5,
+  element: 4.0,
+}
+
+const RELATIVE_IMPORT = /(?:from|import)\s*["'](\.{1,2}\/[^"']+)["']/g
+
+const withImports = (file, seen = new Set()) => {
+  if (seen.has(file)) return seen
+  seen.add(file)
+  for (const [, specifier] of readFileSync(file, 'utf8').matchAll(
+    RELATIVE_IMPORT,
+  )) {
+    withImports(normalize(join(dirname(file), specifier)), seen)
+  }
+  return seen
+}
+
+for (const [entry, budgetKb] of Object.entries(BUDGETS_KB)) {
+  const files = [...withImports(join('dist', `${entry}.js`))]
+  const sizeKb =
+    gzipSync(Buffer.concat(files.map(file => readFileSync(file)))).length / 1024
+  const withinBudget = sizeKb <= budgetKb
+  if (!withinBudget) process.exitCode = 1
+  console.log(
+    `${withinBudget ? 'ok  ' : 'FAIL'} ${entry}: ${sizeKb.toFixed(2)} kB gzip (budget ${budgetKb} kB) — ${files.join(', ')}`,
+  )
+}

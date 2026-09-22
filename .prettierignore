@@ -1,0 +1,17 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.history
+.loop-out
+.vitest
+package-lock.json
+
+# Legacy files: reference material for the port, deleted in the last slice.
+index.js
+customRoutesFunction.js
+breadcrumbNavHeader.scss
+
+# Documentation is hand-wrapped at ~120 columns (house style shared with react-marketing-tools).
+*.md

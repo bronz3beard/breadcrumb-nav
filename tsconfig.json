@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "declaration": true,
+    "allowJs": false,
+
+    /* Bundler mode */
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* The playground (demo/) imports the library by its package name */
+    "paths": {
+      "breadcrumb-nav": ["./lib/index.ts"],
+      "breadcrumb-nav/core": ["./lib/core.ts"],
+      "breadcrumb-nav/next": ["./lib/next.ts"],
+      "breadcrumb-nav/element": ["./lib/element.ts"]
+    }
+  },
+  "include": ["./lib", "./demo", "./vite.config.ts"],
+  "exclude": ["./dist"]
+}
